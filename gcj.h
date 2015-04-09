@@ -375,10 +375,8 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        tc.solve();
-
         ofs << "Case #" << (test + 1) << ": ";
-        tc.output(ofs);
+        tc.solve(ofs);
 
         test_done++;
         if (raw) {
