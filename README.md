@@ -12,14 +12,19 @@ wrapper
 Just copy **gcj.h**, **include.h**, and **template.cpp** to a directory where
 your solutions are located.
 
-To start coding a new solution, create a new file
-with the same contents as **template.cpp**. Inside the **input()** function you
-should read a single test case from the provided **cin** stream, and store
-required data in member variables. Inside the **solve()** function you should
-solve a single test case described by the member variables you populated in the
-**input()** function, and output the solution to the provedid **cout** stream.
+To start coding a new solution, create a new file with the same contents as
+**template.cpp**, and follow the **TODO**'s.
 
 To run the program, start by compiling your solution like usually (**g++ -Wall
 -O2 solution.cpp -o run**). Then run the program, and pass a command line
-argument specifying a test file to run.
+argument specifying a test file to run. For example, **./run test-file >
+test-file.out**.
+
+### Distributing test cases
+Create a file **dist.conf** with one or more lines. Each line contains a
+hostname (or any kind of hostname string that the **ssh** and **scp** commands
+accept), followed by the number of jobs that should be run on that machine.
+Note that you should be able to **ssh** into the given hostnames without having
+to specify a password. Then you can run an input file in distributed mode by
+calling **./run test-file -d dist.conf > test-file.out**.
 

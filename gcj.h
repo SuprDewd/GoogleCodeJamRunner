@@ -119,25 +119,32 @@ void full_clear_progress(vector<machine> &machines) {
 }
 
 void full_progress(vector<machine> &machines, bool clear=true) {
-
     int max_width = 0;
 
+    int cnt = 0;
     for (int i = 0; i < size(machines); i++) {
+        cnt += machines[i].jobs;
         stringstream ss;
         ss << machines[i].host << "_" << (machines[i].jobs-1);
         max_width = max(max_width, size(ss.str()));
     }
 
     if (clear) {
-        full_clear_progress(machines);
+        for (int i = 0; i < cnt; i++) {
+            cerr << "\033[1F";
+        }
     }
 
     for (int i = 0; i < size(machines); i++) {
         for (int j = 0; j < machines[i].jobs; j++) {
             stringstream ss;
             ss << machines[i].host << "_" << j;
-
             int add = max_width - size(ss.str());
+
+            if (clear) {
+                cerr << "\033[2K";
+            }
+
             for (int k = 0; k < add; k++) {
                 cerr << " ";
             }
@@ -191,6 +198,7 @@ int do_distribute(string distconf, string input_file, vector<int> handle, ostrea
     for (int i = 0; i < size(machines); i++) {
         for (int j = 0; j < machines[i].jobs; j++) {
             if (cnt[cur] == 0) {
+                cur++;
                 continue;
             }
 
@@ -325,6 +333,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    _global_raw = raw;
+
     assert(input_file_specified);
     assert(input_file.find(".") != string::npos);
 
@@ -359,21 +369,25 @@ int main(int argc, char *argv[]) {
         progress(0, test_cnt);
     }
 
+    solver solv;
     for (int test = 0; test < tests && test_done < test_cnt; test++) {
-        test_case tc;
-        tc.input(ifs);
 
         if (test + 1 != handle[test_done]) {
+            solv.solve(false, ifs, ofs);
             continue;
         }
 
-        ofs << "Case #" << (test + 1) << ": ";
-        tc.solve(ofs);
+        _global_test = test;
+        solv.solve(true, ifs, ofs);
 
         test_done++;
         if (!raw) {
-            progress(test_done, test_cnt);
+            progress(test_done, test_cnt, false);
         }
+    }
+
+    if (!raw) {
+        clear_progress();
     }
 
     return 0;

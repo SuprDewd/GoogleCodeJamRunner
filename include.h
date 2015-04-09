@@ -35,3 +35,12 @@ typedef vector<vi> vvi;
 typedef vector<vii> vvii;
 template <class T> int size(const T &x) { return x.size(); }
 
+#define LOGIC if (!process) return;
+#define OUTPUT if (!_global_raw) clear_progress();\
+               cout << "Case #" << (_global_test + 1) << ": ";
+
+bool _global_raw;
+int _global_test;
+
+void clear_progress();
+

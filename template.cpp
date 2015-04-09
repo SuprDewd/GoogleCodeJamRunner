@@ -1,13 +1,19 @@
 #include "include.h"
 
-struct test_case {
-    test_case() {
+struct solver {
+
+    solver() {
     }
 
-    void input(istream &cin) {
-    }
+    void solve(bool process, istream &cin, ostream &cout) {
 
-    void solve(ostream &cout) {
+        // TODO: input single test case
+
+        LOGIC;
+        // TODO: solve test case
+
+        OUTPUT;
+        // TODO: output solution to test case
     }
 };
 
