@@ -30,7 +30,6 @@ struct machine {
         host = _host;
         jobs = _jobs;
         fp = vector<FILE*>(jobs, NULL);
-        // ans = vector<stringstream>(jobs, stringstream());
         done = vector<int>(jobs);
         got = vector<int>(jobs);
         dispatched = vector<bool>(jobs, false);
@@ -289,7 +288,6 @@ int main(int argc, char *argv[]) {
     bool do_only = false;
     set<int> only;
 
-    // bool print = false;
     bool raw = false;
 
     int at = 1;
@@ -313,9 +311,6 @@ int main(int argc, char *argv[]) {
                     only.insert(x);
                     ss >> c;
                 }
-            // } else if (strcmp(argv[at], "-p") == 0 || strcmp(argv[at], "--print") == 0) {
-            //     print = true;
-            //     at++;
             } else if (strcmp(argv[at], "-r") == 0 || strcmp(argv[at], "--raw") == 0) {
                 raw = true;
                 at++;
@@ -336,7 +331,6 @@ int main(int argc, char *argv[]) {
     string output_file = input_file.substr(0, input_file.rfind(".")) + ".out";
 
     ifstream ifs(input_file.c_str());
-    // ofstream ofs(output_file.c_str());
     ostream &ofs = cout;
 
     int tests;
@@ -361,9 +355,7 @@ int main(int argc, char *argv[]) {
         return do_distribute(distconf, input_file, handle, ofs);
     }
 
-    if (raw) {
-        // cout << 0 << endl;
-    } else {
+    if (!raw) {
         progress(0, test_cnt);
     }
 
@@ -379,20 +371,10 @@ int main(int argc, char *argv[]) {
         tc.solve(ofs);
 
         test_done++;
-        if (raw) {
-            // cout << test_done << endl;
-        } else {
+        if (!raw) {
             progress(test_done, test_cnt);
         }
     }
-
-    // if (print) {
-    //     ifstream res(output_file.c_str());
-    //     string line;
-    //     while (getline(res, line)) {
-    //         cout << line << endl;
-    //     }
-    // }
 
     return 0;
 }
